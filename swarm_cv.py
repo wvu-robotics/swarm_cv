@@ -46,5 +46,7 @@ while True:
     if len(positions) > 0:data.append(positions)
 data=np.array(data)
 print(data)
+outfile = 'Swarm_Positions'
+np.savez(outfile,x=data)
 cap.release()
 cv2.destroyAllWindows()
