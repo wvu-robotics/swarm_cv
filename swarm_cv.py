@@ -47,6 +47,6 @@ while True:
 data=np.array(data)
 print(data)
 outfile = 'Swarm_Positions'
-np.savez(outfile,x=data)
+np.savez(outfile,data=data)
 cap.release()
 cv2.destroyAllWindows()
