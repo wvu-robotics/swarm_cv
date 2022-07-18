@@ -38,7 +38,7 @@ while True:
         #cv2.imshow("Subtraction",remove)
         #cv2.imshow("Countour",contours)
     
-    key = cv2.waitKey(24) & 0xFF
+    key = cv2.waitKey(48) & 0xFF
     if key == ord("q"):
         break
 
