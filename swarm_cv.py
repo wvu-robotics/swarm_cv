@@ -1,10 +1,13 @@
 import cv2
 import numpy as np
+import math
 
 cap = cv2.VideoCapture('C:\\Users\\katel\\OneDrive\\Desktop\\Flock_Trim_Begin_Short.mp4')
 positions = []
 i=0
+j=0
 data = []
+parse = []
 
 while True:
     (ret,imgPrev) = cap.read()
@@ -45,7 +48,35 @@ while True:
     positions=np.array(positions)
     if len(positions) > 0:data.append(positions)
 data=np.array(data)
-print(data)
+#print(data)
+dataNew = []
+while j < len(data)-1:
+    k = 0
+    dataChunk = []
+    while k < 5:
+        distance = []
+        distance.append(math.dist([data[j][k][0],data[j][k][1]],[data[j+1][0][0],data[j+1][0][1]]))
+        distance.append(math.dist([data[j][k][0],data[j][k][1]],[data[j+1][1][0],data[j+1][1][1]]))
+        distance.append(math.dist([data[j][k][0],data[j][k][1]],[data[j+1][2][0],data[j+1][2][1]]))
+        distance.append(math.dist([data[j][k][0],data[j][k][1]],[data[j+1][3][0],data[j+1][3][1]]))
+        distance.append(math.dist([data[j][k][0],data[j][k][1]],[data[j+1][4][0],data[j+1][4][1]]))
+        mini = min(distance)
+        agent = distance.index(mini)
+        dataChunk.append([data[j][agent][0],data[j][agent][1]])
+        if k == 4:
+            dataNew.append(dataChunk)
+        k = k+1
+    j = j+1
+if j == len(data)-1:
+    k = 0
+    dataChunk = []
+    while k < 5:
+        dataChunk.append([data[j][k][0],data[j][k][1]])
+        if k == 4:
+            dataNew.append(dataChunk)
+        k = k+1
+dataNew=np.array(dataNew)
+print(dataNew)
 outfile = 'Swarm_Positions'
 np.savez(outfile,data=data)
 cap.release()
