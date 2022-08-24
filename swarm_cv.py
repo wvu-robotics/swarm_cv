@@ -2,12 +2,14 @@ import cv2
 import numpy as np
 import math
 
-cap = cv2.VideoCapture('C:\\Users\\katel\\OneDrive\\Desktop\\Flock_Trim_Begin_Short.mp4')
+cap = cv2.VideoCapture('CV_Sample_Videos/flock_trim.mp4')
 positions = []
 i=0
 j=0
 data = []
 parse = []
+xVal = []
+yVal = []
 
 while True:
     (ret,imgPrev) = cap.read()
@@ -23,8 +25,6 @@ while True:
     contours = threshold.copy()
     outlines, hierarchy = cv2.findContours(contours,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     positions = []
-    xVal = []
-    yVal = []
     
     for c in outlines:
         if cv2.contourArea(c) < 1000:
@@ -40,10 +40,10 @@ while True:
         #time.sleep(0.05)
         positions.append([cX,cY])
         i = i+1
-        #cv2.imshow("Camera",img)
-        #cv2.imshow("Threshold",threshold)
-        #cv2.imshow("Subtraction",remove)
-        #cv2.imshow("Countour",contours)
+        # cv2.imshow("Camera",img)
+        # cv2.imshow("Threshold",threshold)
+        # cv2.imshow("Subtraction",remove)
+        # cv2.imshow("Countour",contours)
     
     key = cv2.waitKey(1) & 0xFF
     if key == ord("q"):
@@ -88,6 +88,6 @@ else:
 #dataNew=np.array(dataNew)
 #print(dataNew)
 outfile = 'Swarm_Data'
-np.savez(outfile,agent_positions=data,number_agents = 5,enclosure_size = enclosure,steps = len(data),overall_time = 10)
+np.savez(outfile,agent_positions=data,num_agents = 5,enclosure_size = enclosure,steps = len(data),overall_time = 10)
 cap.release()
 cv2.destroyAllWindows()
